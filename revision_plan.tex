@@ -1,0 +1,190 @@
+\documentclass[12pt,one-column]{article}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{wrapfig}
+\usepackage{psfrag}
+\usepackage{comment}
+\usepackage{color}
+\usepackage[tight,footnotesize]{subfigure}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{makecell}
+\usepackage{indentfirst}
+\usepackage{bm}
+\usepackage{enumitem}
+
+
+\input{new-commands}
+\oddsidemargin=.2in
+\evensidemargin=.2in
+\textwidth=5.9in
+\topmargin=-.5in
+\textheight=10in
+
+\definecolor{Orange}{rgb}{1,0.647,0}
+
+\def\thesection{\Roman{section}}
+\def\thesubsection{\mbox{\arabic{subsection}}}
+
+
+\usepackage{geometry}
+\geometry{left=0.7in,right=0.7in,top=0.7in,bottom=0.7in}
+
+%\newcommand{\msu}{MSU}
+%\newcommand{\ie}{{\sl i.e.}}
+%\newcommand{\eg}{{\sl e.g.}}
+%\newcommand{\etc}{{\sl etc.}}
+%\newcommand{\etal}{{\sl et al.\ }}
+%\newcommand{\Comment}[1]{}
+%
+%\newcommand{\seperator}{\vspace{0.25in}}
+%
+%\newcommand{\proc}{Proceedings of the }
+%\newcommand{\conf}{Conference }
+%\newcommand{\inte}{International }
+%
+\newtheorem{thm}{\textbf{Theorem}}
+\newtheorem{lem}{\textbf{Lemma}}
+\newtheorem{definition}{\textbf{Definition}}
+%\newcommand{\wrapbox}[1]{\framebox{\begin{tabular}{c}#1\end{tabular}}}
+
+\begin{document}
+\title{Revision Plan for SIGCOMM'24 Paper \#293}
+	%\titlespacing*{\section} {0pt}{9pt}{0pt}
+	%\titlespacing*{\paragraph} {0pt}{8pt}{1em}
+\date{}
+\maketitle
+
+\noindent Dear Prof. Praveen Kumar,\\
+
+\noindent Thank you for shepherding our paper (\textit{\#293 PPT: A Pragmatic Transport for Datacenters}). 
+We carefully went through the reviews and outlined our revision plan.\\
+
+%\noindent In particular, we will reorganize Section 5.2.2 and add additional text in this section to clarify the reviewer's concerned points of never-seen-before-flows and coexisting application scenarios (see Response 1). Further, we will add discussions about the deployability of QCLIMB in higher-speed networks (see Response 2).\\
+
+
+
+\noindent Please let us know if you have any feedback. Thank you for your time and help to improve the quality of our paper! \\
+
+\noindent Best Regards,
+
+\noindent Authors of SIGCOMM'24 Paper \#293
+
+%\section{A Summary of Changes}
+%%\noindent {\it Dear authors the paper was discussed in detail at the PC meeting and online. The reviewers are found the paper interesting but there are still some aspects of it that requires further work. We ask authors to revise and resubmit.}
+%
+%\textcolor{blue}{We thank the reviewers and the PC for their careful consideration of our Fall'23 paper \#160. We have revised it as the Spring'24 paper \#47. We address the meeting discussion questions in the responses below, but summarize our revision work here.}
+%
+%\vspace{-15pt}
+%\textcolor{blue}{
+%	\begin{itemize}[leftmargin=*]
+%		\item[1.] As requested, we have added the implementation of RF inference module in Linux kernel to make QCLIMB work as an end-to-end system (see the first three paragraphs of Section 4.1) and accordingly conducted a clearer performance breakdown for QCLIMB as it compares to PIAS (see Figure 15). We also have conducted an experiment to breakdown loss events into different flow types to show why QCLIMB unpredictably delivers a slightly lower tail FCT than pFabric in some cases (see Table 4). 
+%		\item[2.] As requested, we have completely rearchitected our testbed evaluation and re-run all experiments with higher link speeds---25Gbps (see Figures 7, 8, 9, 10, 11, 12, 13, 14, 16, 21, 22, 27 and Table 3).
+%		\item[3.] We have also evaluated QCLIMB in cases with model-application mismatching, coexisting applications, varying QCLIMB-enabled flow ratio, and tiny Tensorflow workload, to address the significant methodological concerns reviewers raised (in particular, see our responses to Reviewer E's feedback), thus ensuring a fair comparison with PIAS (see Figures 17, 18, 19, 20).
+%		\item[4.] We have provided two datacenter application examples to generalize our observations (see Section 2.3.1) and discussed the scenarios where these observations might not manifest (see the end of Section 2.3.2).
+%		\item[5.] We have reorganized the Section 1, Section 2 and Section 3 to improve the presentation. We have also added a new Figure 3 to make QCLIMB scheduling clearer.
+%		\item[6.] To make room for some of the above changes, we have moved results on ``Impact of Slack Size $S$'' to Appendix D.
+%		\item[7.] We have addressed the following reviewer-raised issues in the Appendix:
+%(i) Comparison with Homa (with and without perfect knowledge)$\rightarrow$Appendix D. (ii) Discuss the paper Aequitas$\rightarrow$Appendix E.
+%	\end{itemize}
+%}
+%
+%%\textcolor{blue}{As requested, we have conducted a clearer performance breakdown for QCLIMB as it compares to PIAS and pFabric, and completely rearchitected our testbed experimental evaluation and re-run all experiments with 25Gbps link speeds.
+%%We have also evaluated QCLIMB in cases with model-application mismatching, coexisting applications, varying QCLIMB-enabled flow ratio, and tiny Tensorflow workload, to address the significant methodological concerns reviewers raised (in particular, see our responses to Reviewer E's feedback), thus ensuring a fair comparison with PIAS. 
+%%Furthermore, we have provided two datacenter application examples to generalize our observations as well as discussed the scenarios where these observations might not manifest.
+%%We have also added the implementation of RF model inference module in the Linux kernel to make our QCLIMB work as an end-to-end system.}
+%
+%\textcolor{blue}{We are happy to address additional reviewer comments in the final version.}
+%
+%\textcolor{blue}{NOTE: Our supplementary document with highlighted differences only reflects the major changes we made to address reviewer comments, specifically: new sections, paragraphs or sentences added in the main body and the appendix to address review concerns. It does not highlight the many changes we made to text and figures throughout the paper (e.g., point 5 above).}
+ 
+
+%in the reviews. Below we summarize our revision based on the four~reviews.
+\setlength{\parskip}{0.1em}
+\section{Top-level Concerns: }
+%\noindent The changes made in the revised paper according to comments of Reviewer 1 are highlighted in \textcolor{blue}{blue}.
+{\it \paragraph{Concern 1:} Disconnect between the proposed goals vs the evaluation. The paper pitches itself to deliver comparable performance to proactive transports while being readily deployable. But the evaluations do not necessarily back this up.  }
+
+
+\noindent\textcolor{blue}{\textbf{Response 1:} 
+Thanks for the reviewer’s comments. 
+In fact, the proactive transports proactively allocate the bottleneck link bandwidth and prioritise it to flows with fewer remaining bytes.
+As such, proactive transport typically displays the performance of the large and small flows respectively. 
+To justify our claim of " comparable performance to proactive transports".
+First, we show the overall average FCT to represent the performance of the transport over all flows in the network.
+Second, we show the average FCT and 99th percentile tail FCT for small flows to illustrate the ability of different transport to avoid small flow packet scheduling and queuing delays.
+Finally, we show the average FCT for large flows to display the gap between different schemes in their ability to gracefully utilize the spare bandwidth.
+These are the performance metrics that proactive transports focus on and work with.
+Therefore we use them as the main performance metrics for simulation and testbed and conclude that comparable performance to proactive transports.
+  }
+
+{\it \paragraph{Concern 2:} There's lacking discussion on other related work such as PCC Proteus.}
+
+
+
+\noindent\textcolor{blue}{\textbf{Response 2:} 
+Thanks for the reviewer’s comments. 
+PCC Proteus divides flows into primary and scavenger flows by different application requirements and proactively reduces scavenger flow bandwidth to reduce impact on the primary flow, thus improving overall user experience.
+By contrast, PPT is application type insensitive.
+In PPT, all flows equally utilize the bandwidth.
+PPT's proposed purpose of buffer-aware flow scheduling is to ensures that small flows can bypass queued packets of most large flows in the network to optimize the FCT.
+Therefore, PPT and PCC Proteus are two lines of work due to different flow behaviours as well as optimization goals.
+We will add a discussion of PCC Proteus and other related work in Appendix B.
+}
+
+{\it \paragraph{Concern 3:} The paper needs to discuss more insights on how the system is able to deliver the performance benefits.}
+
+
+\noindent\textcolor{blue}{\textbf{Response 3:} 
+Thanks for the reviewer’s comments. 
+In the overall average performance analysis in Section 6.2, we mentioned that the PPT benefits from being able to gracefully utilize the spare bandwidth without causing bandwidth waste or sending opportunistic packets too aggressively.
+To further explain the insights, we plan to add a remark at the end of Appendix C.1 to analyse in more detail how the PPT achieves its superior performance.
+}
+
+{\it \paragraph{Concern 4:} Other claims such as "integration with other transports is easy" need to be further justified.}
+
+
+\noindent\textcolor{blue}{\textbf{Response 4:} 
+Thanks for the reviewer’s comments. 
+In fact, we implemented a delay-based transport which is conceptually equivalent to Swift in the ns3 simulator.
+It doesn't include the component in swift that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion (2) the ns3 simulator hardly simulates endpoint congestion as well as it actually does. 
+We compared this variant with those of the original delay-based transport and plot the result in Figure 26.
+We find that when incorporating PPT's design with the original delay-based transport, the overall average FCT, the average//tail FCT of small flows, and the average FCT of large flows can be reduced by 16.7\%, 56.5\%/72.1\%, and 11\%, respectively.
+To show more details, we plan to add a more detailed description of this variant in the corresponding section of Appendix C.3.
+We also plan to add a remark paragraph at the end of the chapter to discuss how delay-based transport can benefit from the design of the PPT in further depth.
+}
+
+{\it \paragraph{Concern 5:}Missing details on evaluation setup and parameters.}
+
+
+\noindent\textcolor{blue}{\textbf{Response 5:} }
+	
+\section{Other Concerns}
+%\noindent The changes made in the revised paper according to comments of Reviewer 1 are highlighted in \textcolor{blue}{blue}.
+{\it \paragraph{1: Reviewer Comment:} Although 25 Gbps line-rates do a better job of demonstrating the feasibility of QCLIMB, this is still an order of magnitude less than today's common line-rates. As such, it's still not clear that QCLIMB would be immediately deployable. However, this was not a requirement asked in the revision, and this work is still interesting even if more work is needed to reach 200 Gbps and faster line-rates. }
+
+
+\noindent\textcolor{blue}{\textbf{Response 2:} We agree with the reviewer that 25Gbps is still an order of magnitude less than today's 100Gbps$+$ line-rates. However, 100G+ testbeds are unavailable in our lab because of limited hardware resources. 
+	In fact, our QCLIMB may still work in higher-speed networks.
+	The reason is that the dominant overhead of an end-to-end QCLIMB flow is the end-host processing delay.
+	Such processing delay is independent of the line-rates and is mainly caused by kernel network stack processing.
+	In our evaluation, we observe that a 100KB flow requires roughly 200$\mu$s for the end-host processing on sender- and receiver-sides.
+	By contrast, QCLIMB's model inference takes only 3$\mu$s, which is negligible as compared to such processing delay.
+	One can further reduce this inference latency to 1$\mu$s with advanced FPGA hardware \cite{dhukic2019advance} or may even reduce it to tens of nanoseconds by carefully pipelining RF's decision tree on hardware \cite{Rashelbach2020a}. 
+	We plan to add these text in our revision to discuss the deployabablity of QCLIMB in higher-speed networks.
+}
+
+
+
+
+
+\begin{spacing}{-1.0}
+\bibliographystyle{IEEEtran}
+\vspace{-0.1in}
+\bibliography{bibfile}
+\end{spacing}
+\end{document}
+
+##########################################################################################################
