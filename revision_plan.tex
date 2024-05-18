@@ -163,7 +163,15 @@ We also plan to add a remark paragraph at the end of the chapter to discuss how 
 Thanks for the reviewer’s comments. 
 Actually, we record the maximum value of the window from the beginning of the flow until now as MW (Maximum Window).
 In Section 2.3, we first show how much DCTCP can benefit from padding the spare bandwidth to MW and plot the results in Figure 2.
-Moreover, we show that padding the spare bandwidth to MW is just suitable without wasting bandwidth or causing congestion through experiments, and we plot the results of our experiments in Figure 3.
+Moreover, we show that padding the spare bandwidth to MW is just suitable without wasting bandwidth or causing congestion through experiment, and we plot the results of our experiment in Figure 3.
+Another question is about specific TCP send buffer thresholds.
+In fact, to reproduce the behaviour of the actual deployed application as much as possible, we selected specific application trace for the Memcached application and the web server application respectively.
+The flow size distribution in specific application traces is concentrated in specific intervals, e.g., there is no flow in the ETC trace of the paper[8] that exceeds 100KB.
+Under such traces, to verify the effectiveness of the buffer-aware flow identification, we set different thresholds depending on the traces.
+While in the large-scale simulation and testbed, the TCP send buffer threshold is set to the fixed value of 100KB with outstanding results.
+To evaluate if this can benefit PPT’s performance, we construct a PPT variant that turns off this approach and considers all flows non-identified.
+We plot the results in Figure 20 and show that this indeed improves the small flow performance as expected.
+In summary, TCP send buffer threshold does not assume that the application type and flow size distribution is known a priori, and effectively improves small flow performance.
 }
 	
 \section{Other Concerns}
