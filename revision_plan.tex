@@ -176,22 +176,136 @@ In summary, TCP send buffer threshold does not assume that the application type 
 	
 \section{Other Concerns}
 %\noindent The changes made in the revised paper according to comments of Reviewer 1 are highlighted in \textcolor{blue}{blue}.
-{\it \paragraph{1: Reviewer Comment:} Although 25 Gbps line-rates do a better job of demonstrating the feasibility of QCLIMB, this is still an order of magnitude less than today's common line-rates. As such, it's still not clear that QCLIMB would be immediately deployable. However, this was not a requirement asked in the revision, and this work is still interesting even if more work is needed to reach 200 Gbps and faster line-rates. }
+\subsection{Reviewer \#293A}
+{\it \paragraph{A.1: Reviewer Comment:} The number of used queues could be clarified: p. 6 mentions two such queues (a high-priority and a low-priority queue with a different $\lambda$. But then it mentions that when queueing the opportunistic (presumably low-priority) packets, this may hurt normal (presumably high-priority) packets, suggesting they share the queue. Then, p. 8 mentions 8 priorities, such that "switches can use strict priority to dequeue packets", implicitly pointing to 8 different queues. Then, p.9 mentions 2 queues again. }
 
 
-\noindent\textcolor{blue}{\textbf{Response 2:} We agree with the reviewer that 25Gbps is still an order of magnitude less than today's 100Gbps$+$ line-rates. However, 100G+ testbeds are unavailable in our lab because of limited hardware resources. 
-	In fact, our QCLIMB may still work in higher-speed networks.
-	The reason is that the dominant overhead of an end-to-end QCLIMB flow is the end-host processing delay.
-	Such processing delay is independent of the line-rates and is mainly caused by kernel network stack processing.
-	In our evaluation, we observe that a 100KB flow requires roughly 200$\mu$s for the end-host processing on sender- and receiver-sides.
-	By contrast, QCLIMB's model inference takes only 3$\mu$s, which is negligible as compared to such processing delay.
-	One can further reduce this inference latency to 1$\mu$s with advanced FPGA hardware \cite{dhukic2019advance} or may even reduce it to tens of nanoseconds by carefully pipelining RF's decision tree on hardware \cite{Rashelbach2020a}. 
-	We plan to add these text in our revision to discuss the deployabablity of QCLIMB in higher-speed networks.
+\noindent\textcolor{blue}{\textbf{Response A.1:}
+Thanks for the reviewer’s comments. 
+Actually, PPT uses eight strict priorities in the switch.
+To prevent HCP traffic harmed by LCP, priorities 0$\sim$3 are used to transmit HCP packets and priorities 4$\sim$7 are used to transmit LCP packets.
+Therefore, the \emph{high-priority} and \emph{low-priority} mentioned in p.6 as well as p.9 refer to priorities 0$\sim$3 and priorities 4$\sim$7 in the switch, respectively.
+To avoid ambiguity for the reader, we will include footnotes in Section 3.2 for explanation.
 }
 
 
+{\it \paragraph{A.2: Reviewer Comment:} In addition, PPT seems to couple each LCP flow with an HCP flow, by defining the window size of the LCP flow using the window size of the associated HCP flow. But what if there are no HCP flows now? Are LCP flows stuck? Or more generally, what if the numbers of flows are not equal? Or what if they are equal but the flows are destined to different destinations? How does this coupling help? }	
+
+\noindent\textcolor{blue}{\textbf{Response A.2:}
+Thanks for the reviewer’s comments. 
+Although very sorry, the reviewer seems to have misinterpreted  PPT's strategy.
+At the beginning of Section 3, we mentioned that "LCP sends opportunistic packets from the tail end".
+Therefore, both HCP and LCP send data in same flow.
+However, many of the review's comments were based on LCP and HCP transmitting data from different flows, which made them difficult for us to answer.
+}
+
+\subsection{Reviewer \#293B}
+{\it \paragraph{B.1: Reviewer Comment:} During LCP loop initialization for case 1, it is unclear how PPT computes BDP in the first RTT. As you mention, DCTCP is still probing for available bandwidth.}
+
+\noindent\textcolor{blue}{\textbf{Response B.1:}
+Thanks for the reviewer’s comments. 
+Since the NIC rate can be read via system call and the datacenter network topology is relatively fixed, we assume that the RTT is known a priori.
+By NIC rate times RTT, we assume that the host knows the BDP by advance.
+}
+
+{\it \paragraph{B.2: Reviewer Comment:} I wonder if tracking $\alpha_{min}$ can lead to underutilization due to network dynamics. Suppose we have a long flow which experiences transient congestion at the beginning (say due to an incast); the trans ient congestion causes $\alpha_{min}$ to be $>$ 0.5 for the flow. After the transient congestion subsides, the large flow is unable to utilize any spare bandwidth arising from Case 2.}
+
+\noindent\textcolor{blue}{\textbf{Response B.2:}
+Thanks for the reviewer’s comments. 
+During the process of congestion subsiding, the switch queue length is reducing, the percentage of ECN marked packets for this long flow is decreasing, as well as the value of $\alpha$.
+As the congestion subsides completely, the proportion of ECN-marked packets should be 0.
+PPT initializes LCP for the long flow whenever $\alpha$ takes the minimum value.
+At this point, $\alpha$ must be less than 0.5, which makes this large flow utilize the spare bandwidth.
+}
+
+{\it \paragraph{B.3: Reviewer Comment:} It is unclear how PPT deals with fairness as flows arrive and leave. Suppose two large flows sharing a common bottleneck link arrive one after the other. The latter flow might see much lower $W_{max}$ (50\%?) than the earlier flow. In every LCP loop initialization (case 2), the latter flow would compute a lower value of initial congestion window and send less packets via LCP compared to the earlier flow.}
 
 
+\noindent\textcolor{blue}{\textbf{Response B.3:}
+Thanks for the reviewer’s comments. 
+}
+
+{\it \paragraph{B.4: Reviewer Comment:} As the paper targets the issue of underutilizing high datacenter bandwidth, I wonder if some of the simulations could have been done at higher line rates (400+ Gbps) to demonstrate the problem more clearly.}
+
+
+\noindent\textcolor{blue}{\textbf{Response B.4:}
+Thanks for the reviewer’s comments. 
+We will add a new simulation experiment with topology consists of 144 servers, 9 leaf switches and 4 spine switches, with the host and core links operated at 400 and 1000Gbps, respectively.
+We will plot the results in the appendix.
+}
+
+{\it \paragraph{B.5: Reviewer Comment:} What are the overheads of PPT?}
+
+\noindent\textcolor{blue}{\textbf{Response B.5:}
+Thanks for the reviewer’s comments. 
+Actually, we measure the kernel space CPU overhead of PPT and DCTCP in the our testbed.
+We plot the results in Figure 21.
+For more details can read Appendix C.1.
+}
+
+\subsection{Reviewer \#293C}
+{\it \paragraph{C.1: Reviewer Comment:} It would be particularly useful to have an intuitive and straightforward example scenario where LCP can discover spare bandwidth other than during the slow start phase.}
+
+\noindent\textcolor{blue}{\textbf{Response C.1:}
+Thanks for the reviewer’s comments. 
+Indeed, in section 2.3 we mention that \emph{DCTCP marks ECN at the switch for arriving packets if queue occupancy exceeds a threshold K, and the sender cuts the window based on the fraction of ECN marked ACKs. So, when there are multiple concurrent flows, DCTCP may mark ECN for packets from many flows, which may cut windows simultaneously, thus causing a sudden drain on the switch buffer and leaving bandwidth underutilized.}
+To show this point, We run ns-3 simulations with two senders and one receiver sharing the bottleneck. 
+We sample the bottleneck link utilization every 100us for 10ms when DCTCP enters a steady state.
+We plot the results in Figure 1 and show that  leaving nearly half of the bandwidth under-utilized.
+}
+
+{\it \paragraph{C.2: Reviewer Comment:} Figure 13 doesn’t add up by itself. RC3 has the highest average FCT for small and large flows. However, its overall average is not the highest. Given that large and small flows account for 13\% and 87\% respectively, the overall average should be around 0.13 * 39.63 + 0.87 * 0.77 = 5.8? Or am I missing something?}
+
+
+\noindent\textcolor{blue}{\textbf{Response C.2:}
+	Thanks for the reviewer’s comments. 
+	After careful checking of our data processing code we found that under Datamining workloads, RC3 would result in few flows not completing due to a large number of packet losses.
+	Our code incorrectly used the program runtime as the flow completion time when calculating the overall average FCT, resulting in the actual calculated result being larger.
+	We will fix the bug and update the correct result.
+}
+
+{\it \paragraph{C.3: Reviewer Comment:} Page 12, can you give an intuition why limiting RC3’s low priority queue doesn’t help? It kind of contradicts the argument that aggressive low priority packets hinder high-priority packets being a problem if the high-priority queue has enough buffers?}
+
+
+\noindent\textcolor{blue}{\textbf{Response C.3:}
+Thanks for the reviewer’s comments. 
+Although limiting the RC3 low-priority queue can reduce the LCP from sending too many opportunity packets somehow, the following reasons still lead to low performance.
+First, during the slow-start phase of the flow, limiting the buffer LCP could use will leave a large amount of bandwidth underutilized.
+Second, RC3 keeps the LCP open instead of intermittent initialization as PPT, which causes more severe congestion during traffic bursts.
+Last but not least, RC3 lack of using in-network priority causes small flow packets are queued after LCP packets, increasing small flow latency.
+We will add the above analyses to our paper.
+}
+
+
+\subsection{Reviewer \#293D}
+{\it \paragraph{D.1: Reviewer Comment:} I'm not sure if I fully understand some of the experimental results. To give an example, why is Homa's performance so poor for the testbed incast experiment? You mention that PPT is effective because it can recover quickly but why can't Homa?}
+
+
+\noindent\textcolor{blue}{\textbf{Response D.1:}
+Thanks for the reviewer’s comments. 
+In fact, as we mentioned in Section 6.1.2, Homa-Linux sends BDP-sized unscheduled packets for each arriving flow, and excessive opportunity packets cause heavier congestion in incast scenarios.
+Furthermore, Homa-Linux is connectionless, so packet loss recovery is achieved through retransmission after timeout.
+Large packet loss in Incast scenarios further impairs its performance.
+We will add more detailed analyses in the paper
+}
+
+\subsection{Reviewer \#293E}
+
+{\it \paragraph{E.1: Reviewer Comment:} In production systems, priority queues are scarce resource. Using only two HW queues for one application will be a luxury. How does PTP perform with 2 prio queues (one high, one low) compared to existing production solutions like Swift, HPCC, DCTCP?}
+
+\noindent\textcolor{blue}{\textbf{Response E.1:}
+Thanks for the reviewer’s comments. 
+In fact, we construct a stricter variant of PPT in our paper that assigns all packets the same priority.
+We plot the results in Figure 19.
+We find that even under these conditions, PPT still achieves the optimal overall average FCT among NDP, Homa, Aeolus, DCTCP, and RC3.
+}
+
+{\it \paragraph{E.2: Reviewer Comment:} Even the 'large-scale' simulations cover only 144 servers w/ 40~100G as core link speeds. This resembles DC topology of more a decade ago. With the trend of AI clusters growing to have 10s of Ks of GPUs, I believe at least 2K or more endpoints must be simulated to see the real impact on shallow switch.}
+
+\noindent\textcolor{blue}{\textbf{Response E.2}
+Thanks for the reviewer’s comments. 
+We will add a large-scale simulation experiment with 2k nodes to the appendix.
+} 
 
 \begin{spacing}{-1.0}
 \bibliographystyle{IEEEtran}
