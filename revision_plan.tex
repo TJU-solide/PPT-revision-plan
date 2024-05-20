@@ -127,12 +127,12 @@ We believe that the above performance metrics support our proposed goals well.
 
 
 \noindent\textcolor{blue}{\textbf{Response 2:} 
-Thanks for the reviewer’s comments. 
-PCC Proteus divides flows into primary and scavenger flows by different application requirements and proactively reduces scavenger flow bandwidth to reduce impact on the primary flow, thus improving overall user experience.
-By contrast, PPT is application type insensitive.
+Thanks for the reviewer's comments. 
+PCC Proteus divides flows into primary and scavenger flows according to different application requirements and proactively reduces scavenger flow bandwidth to minimize the impact on the primary flow, thus improving the overall user experience.
+By contrast, PPT is insensitive to the application type.
 In PPT, all flows equally utilize the bandwidth.
-PPT's proposed purpose of buffer-aware flow scheduling is to ensures that small flows can bypass queued packets of most large flows in the network to optimize the FCT.
-Therefore, PPT and PCC Proteus are two lines of work due to different flow behaviours as well as optimization goals.
+PPT's proposed purpose of buffer-aware flow scheduling is to ensure that small flows bypass queued packets of most large flows in the network to optimize the FCT.
+Therefore, PPT and PCC Proteus are two lines of work due to different flow behaviors and optimization goals.
 We will add a discussion of PCC Proteus and other related work in Appendix B.
 }
 
@@ -141,18 +141,18 @@ We will add a discussion of PCC Proteus and other related work in Appendix B.
 
 \noindent\textcolor{blue}{\textbf{Response 3:} 
 Thanks for the reviewer’s comments. 
-In the overall average performance analysis in Section 6.2, we mentioned that the PPT benefits from being able to gracefully utilize the spare bandwidth without causing bandwidth waste or sending opportunistic packets too aggressively.
-To further explain the insights, we plan to add a remark at the end of Appendix C.1 to analyse in more detail how the PPT achieves its superior performance.
+In the overall average performance analysis in Section 6.2, we mentioned that the PPT benefits from gracefully utilizing the spare bandwidth without causing bandwidth waste or sending opportunistic packets too aggressively.
+To further explain the insights, we add a remark at the end of Appendix C.1 to analyze how the PPT achieves its superior performance in more detail.
 }
 
 {\it \paragraph{Concern 4:} Other claims such as "integration with other transports is easy" need to be further justified.}
 
 
 \noindent\textcolor{blue}{\textbf{Response 4:} 
-Thanks for the reviewer’s comments. 
-In fact, we implemented a delay-based transport which is conceptually equivalent to Swift in the ns3 simulator.
-It doesn't include the component in swift that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion (2) the ns3 simulator hardly simulates endpoint congestion as well as it actually does. 
-We compared this variant with those of the original delay-based transport and plot the result in Figure 26.
+Thanks for the reviewer's comments. 
+We implemented a delay-based transport conceptually equivalent to Swift in the ns3 simulator.
+It doesn't include the component in Swift that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion, and (2) the ns3 simulator hardly simulates endpoint congestion as well as it does. 
+We compared this variant with the original delay-based transport and plotted the result in Figure 26.
 We find that when incorporating PPT's design with the original delay-based transport, the overall average FCT, the average//tail FCT of small flows, and the average FCT of large flows can be reduced by 16.7\%, 56.5\%/72.1\%, and 11\%, respectively.
 To show more details, we plan to add a more detailed description of this variant in the corresponding section of Appendix C.3.
 We also plan to add a remark paragraph at the end of the chapter to discuss how delay-based transport can benefit from the design of the PPT in further depth.
@@ -163,17 +163,17 @@ We also plan to add a remark paragraph at the end of the chapter to discuss how 
 
 \noindent\textcolor{blue}{\textbf{Response 5:}
 Thanks for the reviewer’s comments. 
-Actually, we record the maximum value of the window from the beginning of the flow until now as MW (Maximum Window).
-In Section 2.3, we first show how much DCTCP can benefit from padding the spare bandwidth to MW and plot the results in Figure 2.
-Moreover, we show that padding the spare bandwidth to MW is just suitable without wasting bandwidth or causing congestion through experiment, and we plot the results of our experiment in Figure 3.
+We record the maximum value of the window from the beginning of the flow until now as MW (Maximum Window).
+Section 2.3 first shows how much DCTCP can benefit from padding the spare bandwidth to MW and plots the results in Figure 2.
+Moreover, we show that padding the spare bandwidth to MW is just suitable without wasting bandwidth or causing congestion throughout the experiment, and we plot the results of our experiment in Figure 3.
 Another question is about specific TCP send buffer thresholds.
-In fact, to reproduce the behaviour of the actual deployed application as much as possible, we selected specific application trace for the Memcached application and the web server application respectively.
-The flow size distribution in specific application traces is concentrated in specific intervals, e.g., there is no flow in the ETC trace of the paper[8] that exceeds 100KB.
-Under such traces, to verify the effectiveness of the buffer-aware flow identification, we set different thresholds depending on the traces.
-While in the large-scale simulation and testbed, the TCP send buffer threshold is set to the fixed value of 100KB with outstanding results.
+To reproduce the behavior of the actual deployed application as much as possible, we selected specific application traces for the Memcached application and the web server application, respectively.
+The flow size distribution in specific application traces is concentrated in particular intervals, e.g., there is no flow in the ETC trace of the paper[8] that exceeds 100KB.
+Under such traces, we set different thresholds depending on the traces to verify the effectiveness of the buffer-aware flow identification.
+In the large-scale simulation and testbed, the TCP send buffer threshold is set to the fixed value of 100KB, with outstanding results.
 To evaluate if this can benefit PPT’s performance, we construct a PPT variant that turns off this approach and considers all flows non-identified.
-We plot the results in Figure 20 and show that this indeed improves the small flow performance as expected.
-In summary, TCP send buffer threshold does not assume that the application type and flow size distribution is known a priori, and effectively improves small flow performance.
+We plot the results in Figure 20, showing that this improves the small flow performance as expected.
+In summary, the TCP send buffer threshold does not assume that the application type and flow size distribution are known a priori and effectively improves small flow performance.
 }
 	
 \section{Other Concerns}
