@@ -109,15 +109,17 @@ We carefully went through the reviews and outlined our revision plan.\\
 
 
 \noindent\textcolor{blue}{\textbf{Response 1:} 
-Thanks for the reviewer’s comments. 
-In fact, the proactive transports proactively allocate the bottleneck link bandwidth and prioritise it to flows with fewer remaining bytes.
-As such, proactive transport typically displays the performance of the large and small flows respectively. 
-To justify our claim of " comparable performance to proactive transports".
-First, we show the overall average FCT to represent the performance of the transport over all flows in the network.
+Thanks for the reviewer's comments. 
+The proactive transports proactively allocate the bottleneck link bandwidth and prioritize it to flows with fewer remaining bytes.
+Proactive transport typically displays the performance of the large and small flows, respectively. 
+To support our claim of "comparable performance to proactive transports."
+First, we compare the overall performance of the different transports through the overall average FCT.
 Second, we show the average FCT and 99th percentile tail FCT for small flows to illustrate the ability of different transport to avoid small flow packet scheduling and queuing delays.
-Finally, we show the average FCT for large flows to display the gap between different schemes in their ability to gracefully utilize the spare bandwidth.
+Finally, we show the average FCT for large flows to display the gap between different schemes' ability to utilize the spare bandwidth gracefully.
 These are the performance metrics that proactive transports focus on and work with.
-Therefore we use them as the main performance metrics for simulation and testbed and conclude that comparable performance to proactive transports.
+Therefore, we use them as the primary performance metrics for simulation and testbed and conclude they are comparable to performance in proactive transport.
+To show more details, we have shown the lines of code required to be modified to deploy PPT and Homa-Linux, respectively (Tables 3 and 4), and the CPU usage of PPT and DCTCP under different loads (Figure 21) in the appendix.
+We believe that the above performance metrics support our proposed goals well.
   }
 
 {\it \paragraph{Concern 2:} There's lacking discussion on other related work such as PCC Proteus.}
