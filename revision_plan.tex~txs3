@@ -234,69 +234,21 @@ We will complete the missing details about the experimental setup and parameters
 \section{Reviewers Response}
 %\noindent The changes made in the revised paper according to comments of Reviewer 1 are highlighted in \textcolor{blue}{blue}.
 \subsection{Reviewer \#293A}
-{\it \paragraph{A.1: Reviewer Comment:} The most significant shortcoming of the paper is that its goals are not defined sufficiently clearly. At first, the Introduction states: "In this work, we aim to explore a new transport that can achieve comparable performance to proactive transports while being readily deployable." So we would expect the paper to be about optimizing the typical performance, e.g. the median or 99th-percentile FCT. But reverse-engineering from the results, it looks like the paper is about entirely different goals: being able to implement a strict multi-priority scheme between four classes of traffic: (a) high-priority short flows, (b) high-priority long flows, (c) low-priority short flows, and (d) low-priority long flows. This can harvest leftover bandwidth, and enable short flows to complete more quickly. The paper should clarify if that is indeed the goal. In addition, it should specify metrics of success by which we can quantify that the goals are achieved.}
-
-\noindent\textcolor{blue}{\textbf{Response A.1}
-Thanks for the recommendations.
-We would like to clarify that one of PPT's goals is indeed optimizing the typical performance like overall average FCT of flows. PPT uses a dual-loop rate control design to achieve this goal. Specifically, it runs a high-priority control loop using DCTCP, and a second low-priority control loop to utilize the spare bandwidth in the network, thus delivering low FCTs for the flows. 
-From this point of view, our evaluation results can back this up. Please see the results achieved by our PPT and Homa (or Homa-Linux) in Fig. 8(a), Fig. 9 (a), Fig. 10(a), Fig. 11(a), Fig. 12(a), and Fig. 13(a). 	
-}
-
-\textcolor{blue}{Another goal of our PPT is to further optimize the performance of small flows, since the parallel control loop design treats the small and large flows equally and may lead small flows queued after large ones in switch buffer. To achieve this goal, our PPT uses a mirror-symmetric packet tagging method. This design makes PPT achieve comparable average FCT of small flows with Homa, as shown in Fig. 12(b)(c) and Fig. 13(b)(c). Note that this mirror-symmetric packet tagging is a complement component with the parallel control loop design. In case the reviewers may misunderstand this, we want to clarify the following points:}
-
-\textcolor{blue}{1): When a flow starts, the high-priority control loop (HCP) sends this flow's from the beginning of the send buffer. Meanwhile, the low-priority control loop (LCP) sends data from the very last byte of the send buffer. So, in general, for each flow, it contains both HCP and LCP packets during its lifetime. }
-
-\textcolor{blue}{2): Moreover, a flow's HCP packet sending rate is controlled by the DCTCP algorithm, and its LCP packet sending rate is controlled independently (using the intermittent loop initialization and exponential window decreasing techniques proposed by PPT). 
-}
-
-\textcolor{blue}{3): For each flow, PPT lets its HCP packets use the first four high priorities while the LCP packets use the remaining four low priories. Initially, a flow's HCP and LCP packets use  P0 (the highest priority of the HCP priorities) and P4 (the highest priority priority of the LCP priorities), respectively. As more bytes are sent for this flow, its HCP and LCP packet priorities will be demoted at the same pace.
-}
-
-\textcolor{blue}{So, in summary, we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network. Moreover, the priority queuing is a incremental design to further optimize the average FCT of small flows. We plan to add more text in Sec. 4 to clarify these points.
-}
-
-\textcolor{blue}{Finally, the PPT prototype implementation, te CloudLab testbed experiments and the comments about the issues in Homa-Linux implementation verify that PPT is a readily deployable solution.
-}
+{\it \paragraph{A.1: Reviewer Comment:} The number of used queues could be clarified: p. 6 mentions two such queues (a high-priority and a low-priority queue with a different $\lambda$. But then it mentions that when queueing the opportunistic (presumably low-priority) packets, this may hurt normal (presumably high-priority) packets, suggesting they share the queue. Then, p. 8 mentions 8 priorities, such that "switches can use strict priority to dequeue packets", implicitly pointing to 8 different queues. Then, p.9 mentions 2 queues again. }
 
 
-{\it \paragraph{A.2: Reviewer Comment:} The number of used queues could be clarified: p. 6 mentions two such queues (a high-priority and a low-priority queue with a different $\lambda$). But then it mentions that when queueing the opportunistic (presumably low-priority) packets, this may hurt normal (presumably high-priority) packets, suggesting they share the queue. Then, p. 8 mentions 8 priorities, such that "switches can use strict priority to dequeue packets", implicitly pointing to 8 different queues. Then, p.9 mentions 2 queues again.
-	
-More significantly, if we indeed have such priority queueing, then what is the goal of the research beyond setting up these queues? What does the paper intend to show? It seems that with priority queueing, we already achieve the four priority types, that each priority provides protection from lower-priority flows, and that the low-priority flows can indeed harvest the spare bandwidth. Again, the paper should clarify its motivation.}
-
-\noindent\textcolor{blue}{\textbf{Response A.2}
+\noindent\textcolor{blue}{\textbf{Response A.1:}
 Thanks for the reviewer's comments. 
 PPT uses 8 priority queues (P0$>$P1$>\cdots>$P7) in the switch.
 HCP packets use priorities P0$\sim$P3 while LCP packets use P4$\sim$P7.
 Therefore, the \emph{high-priority} and \emph{low-priority} mentioned in p.6 and p.9 refer to priorities P0$\sim$P3 and P4$\sim$P7 in the switch, respectively.
 To avoid ambiguity, we will include footnotes in Section 3.2 to explain this point.
-} 
-
-\textcolor{blue}{We would like to clarify the goals of PPT uses such priority queues is to optimize the performance of small flows. This design motivated by PPT's dual-loop rate control treats all flows equally in the network. Specifically, the packets of small flows may be queued after those of large flows. Therefore, PPT uses a mirror-symmetric packet tagging method which makes PPT achieve comparable small flow performance with Homa. We plan to add more text in Sec.4 to clarify these point.
 }
 
-{\it \paragraph{A.3: Reviewer Comment:} A goal of the paper is to obtain a "scavenger" algorithm that can fully use spare bandwidth. This was the main goal of PCC Proteus (ACM SIGCOMM'20), maybe the best-known such scavenger algorithm. It is surprising that the paper does not quote it and compare against it.}
 
-\noindent\textcolor{blue}{\textbf{Response A.3}
-PPT is radically different from the "scavenger" algorithm like PCC Proteus.
-First, PCC Proteus is designed for Internet while our PPT is used for datacenter network environment.
-Second, PCC Proteus depends on application requirements and use the traffic of low-priority applications to fill the bandwidth leftover by high-priority application. PPT uses different bandwidth padding scheme. That said, it does not rely on application's priority or requirement. It instead uses the opportunistic packets starting from the end of the same flow to fill the spare bandwidth in the network.
-Finally, PCC Proteus requires application to specify its priorities, while PPT gradually demotes a flow's priority as more bytes sent. We will plan to discuss PCC Proteus and other related work in Appendix B.
-} 
+{\it \paragraph{A.2: Reviewer Comment:} In addition, PPT seems to couple each LCP flow with an HCP flow, by defining the window size of the LCP flow using the window size of the associated HCP flow. But what if there are no HCP flows now? Are LCP flows stuck? Or more generally, what if the numbers of flows are not equal? Or what if they are equal but the flows are destined to different destinations? How does this coupling help? }	
 
-{\it \paragraph{A.4: Reviewer Comment:}Another major issue is that the paper somehow gets a free lunch, and we do not get much intuition about it. PPT handily beats state-of-the-art algorithms on small-flow FCTs, which was expected. We would expect a small hit for long-flow FCTs on the other hand. Instead, it also easily beats them for long-flow FCTs. The paper should devote much more space to explain the intuition behind this out-performance, and convey why this is not just due to the choice of the network and/or workload parameters. Is it due to the better bandwidth utilization? To the use of priorities? Would it still hold if the competing algorithm had 4 priorities with DCTCP or HPCC in each?}
-
-\noindent\textcolor{blue}{\textbf{Response A.4}
-} 
-
-{\it \paragraph{A.5: Reviewer Comment:}Filling the gap up to the DCTCP max congestion window sounds good when traffic is completely static. But if DCTCP uses the full link bandwidth when alone, then 1/11th of the bandwidth when 10 more flows arrive, it is hard to understand why a new opportunistic flow would suddenly take 1/2*10/11, i.e nearly 50\% of the link rate. In fact, if $W_{max}$ were the correct rate for DCTCP, then DCTCP could have used it as well. There is a reason why DCTCP has decreased its window. Likewise, while at the start the DCTCP flow starts cautiously, the opportunistic flow starts with a near-full BDP of traffic. Why?}
-
-\noindent\textcolor{blue}{\textbf{Response A.5}
-} 
-
-
-{\it \paragraph{A.6: Reviewer Comment:} In addition, PPT seems to couple each LCP flow with an HCP flow, by defining the window size of the LCP flow using the window size of the associated HCP flow. But what if there are no HCP flows now? Are LCP flows stuck? Or more generally, what if the numbers of flows are not equal? Or what if they are equal but the flows are destined to different destinations? How does this coupling help? }	
-
-\noindent\textcolor{blue}{\textbf{Response A.6:} Thanks for the reviewer's comments. Actually, we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network.}
+\noindent\textcolor{blue}{\textbf{Response A.2:} Thanks for the reviewer's comments. Actually, we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network.}
 
 %\noindent\textcolor{blue}{\textbf{Response A.2:}
 %Thanks for the reviewer's comments. 
@@ -396,22 +348,10 @@ We will add more intuitive reasons in Section 6.2 to show this point.
 
 
 \subsection{Reviewer \#293D}
-
-{\it \paragraph{D.1: Reviewer Comment:}Overall, given the recent research on protocols that are both (a) simpler than DCTCP to deploy and (b) deliver better performance than it, it is unclear to me why one would want to have an "add-on" system (with its own additional complexities) to help it perform better.}
-
-\noindent\textcolor{blue}{\textbf{Response D.1}
-} 
-
-{\it \paragraph{D.2: Reviewer Comment:}Related work: The paper misses the recent delay-based congestion control algorithms such as Timely and Swift both in the qualitative discussions (e.g., Table 1) and in the quantitative comparisons in the evaluation section. Appendix C provides some data but needs some clarification. What exactly is "a delay-based transport (conceptually equivalent to Swift)." What is the actual algorithm?}
-
-\noindent\textcolor{blue}{\textbf{Response D.2}
-} 
+{\it \paragraph{D.1: Reviewer Comment:} I'm not sure if I fully understand some of the experimental results. To give an example, why is Homa's performance so poor for the testbed incast experiment? You mention that PPT is effective because it can recover quickly but why can't Homa?}
 
 
-{\it \paragraph{D.3: Reviewer Comment:} I'm not sure if I fully understand some of the experimental results. To give an example, why is Homa's performance so poor for the testbed incast experiment? You mention that PPT is effective because it can recover quickly but why can't Homa?}
-
-
-\noindent\textcolor{blue}{\textbf{Response D.3:}
+\noindent\textcolor{blue}{\textbf{Response D.1:}
 Thanks for the reviewer's comments.
 Note that the original Homa SIGCOMM'18 paper does not provide implementation code, so we use its Homa-Linux implementation (which is published in ATC'21).
 However, Homa-Linux over-tunes the entire TCP/IP network stack and suffers from several implementation issues (as we have already discussed in Section 6.1.1).
@@ -438,12 +378,6 @@ Our current topology is commonly used in datacenter networking community.
 Simulation with 2K-node scale takes significant time, which may miss the camera-ready deadline.  So, we plan to do it in the future.
 %We will add a large-scale simulation experiment with 2k nodes to the appendix.
 } 
-
-
-
-
-
-
 
 %\begin{spacing}{-1.0}
 %\bibliographystyle{IEEEtran}
