@@ -286,6 +286,13 @@ Finally, PCC Proteus requires application to specify its priorities, while PPT g
 {\it \paragraph{A.4: Reviewer Comment:}Another major issue is that the paper somehow gets a free lunch, and we do not get much intuition about it. PPT handily beats state-of-the-art algorithms on small-flow FCTs, which was expected. We would expect a small hit for long-flow FCTs on the other hand. Instead, it also easily beats them for long-flow FCTs. The paper should devote much more space to explain the intuition behind this out-performance, and convey why this is not just due to the choice of the network and/or workload parameters. Is it due to the better bandwidth utilization? To the use of priorities? Would it still hold if the competing algorithm had 4 priorities with DCTCP or HPCC in each?}
 
 \noindent\textcolor{blue}{\textbf{Response A.4}
+PPT's large flow performance benefits from the following points. 
+First, DCTCP contains spare bandwidth in slow start phase, which is obvious.
+Second, in queue build-up phase, DCTCP also contains some spare bandwidth. We have already shown that DCTCP leaves nearly half of the bandwidth under-utilized. Please see Fig.1 for more details.
+Finally, filling the gap of DCTCP to MW utilized the spare bandwith gracefully. We have already demonstrated by experiment that filling the DCTCP gap achieves better performance than Homa and NDP.
+Further, we show via an experiment that MW is the optimal value for filling the spare bandwidth.
+Please see Fig. 1 and Fig. 2 in Section 2.3 for more details.
+These make PPT achieve a better large flow performance.
 } 
 
 {\it \paragraph{A.5: Reviewer Comment:}Filling the gap up to the DCTCP max congestion window sounds good when traffic is completely static. But if DCTCP uses the full link bandwidth when alone, then 1/11th of the bandwidth when 10 more flows arrive, it is hard to understand why a new opportunistic flow would suddenly take 1/2*10/11, i.e nearly 50\% of the link rate. In fact, if $W_{max}$ were the correct rate for DCTCP, then DCTCP could have used it as well. There is a reason why DCTCP has decreased its window. Likewise, while at the start the DCTCP flow starts cautiously, the opportunistic flow starts with a near-full BDP of traffic. Why?}
