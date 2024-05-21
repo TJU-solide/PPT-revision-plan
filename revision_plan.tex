@@ -222,7 +222,7 @@ Since HCP and LCP come from the same flow, they must have the same number and de
 \noindent\textcolor{blue}{\textbf{Response B.1:}
 Thanks for the reviewer’s comments. 
 Since $BDP = rtt*rate_{nic}$.
-While the $rate_{nic}$ can be read via system call and the datacenter network topology is relatively fixed, we assume the $rtt$ is known a priori.
+While the $rate_{nic}$ can be determined via system call and the datacenter network topology is relatively fixed, we assume the $rtt$ is known a priori.
 So we can calculate the BDP in advance.
 }
 
@@ -243,7 +243,7 @@ While $\alpha$ greater than 0.5 represents the link experienced severe congestio
 
 \noindent\textcolor{blue}{\textbf{Response B.3:}
 Thanks for the reviewer’s comments. 
-It is true that we have not taken into account the fairness issue in this scenario, but it can be solved by a simple design.
+Unfortunately, we have not taken into account the fairness issue in this scenario, but it can be got by a simple design.
 We will discuss this in Appendix A.
 }
 
@@ -281,8 +281,9 @@ We plot the results in Figure 1, showing that nearly half of the bandwidth is un
 
 \noindent\textcolor{blue}{\textbf{Response C.2:}
 Thanks for the reviewer’s comments. 
-After we checked the experimental data we found that the results were error due to our input errors.
-We will correct the error and double-check the rest of data.
+So sorry, we made a typing error in the drawing causing the issue.
+%After we checked the experimental data we found that the results were error due to our input errors.
+We will revise all affected parts of the entire article.
 %After carefully checking our data processing code, we found that under Datamining workloads, RC3 would result in a few flows not completing due to many packet losses.
 %Our code incorrectly used the program runtime as the flow completion time when calculating the overall average FCT, resulting in the actual computed result being larger.
 %We will fix the bug and update the correct result.
