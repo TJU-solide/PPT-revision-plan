@@ -110,11 +110,13 @@ We carefully went through the reviews and outlined our revision plan.\\
 
 \noindent\textcolor{blue}{\textbf{Response 1:} 
 Thanks for the reviewer's comments. 
-We aim to explore a new transport that can achieve comparable performance to proactive transports while being readily deployable.
-To this point, we start with DCTCP and use LCP to gracefully utilize the available bandwidth. Moreover, we complement its design with a buffer-aware flow scheduling to optimize small flow’s performance.
-We then show that PPT can achieve performance comparable to proactive transports by overall average, small flow average/ tail, and large flow average FCT.
-We proved the readily deployable nature of PPT by implementing PPT based on Linux-kernel and low CPU overhead.
-The above performance metrics can back up our design goals.
+Firstly, our proposed goal is to explore a new transport that can achieve comparable performance to proactive transports while being readily deployable.
+To this point, we start with DCTCP and use LCP to utilize the available bandwidth gracefully. Moreover, we complement its design with buffer-aware flow scheduling to optimize the small flow's performance.
+Our analysis in Section 2.3 carefully explains how PPT's design matches the proposed goals.
+We then count the FCT of flows with different sizes in large-scale simulation experiments and testbed to compare the performance of PPT with other transports.
+PPT achieves lower overall average FCT than the proactive transports across all scenarios and achieves better small flow performance in some cases.
+Finally, we proved its readily deployable nature by implementing PPT based on Linux-kernel and showing its low CPU overhead.
+The above experiments and results can back up our proposed goals.
 %The proactive transports proactively allocate the bottleneck link bandwidth and prioritize it to flows with fewer remaining bytes.
 %Proactive transport typically displays the performance of the large and small flows, respectively. 
 %To support our claim of "comparable performance to proactive transports."
@@ -147,9 +149,10 @@ PPT uses a dual-loop rate control design to utilize the available bandwidth grac
 Thanks for the reviewer’s comments. 
 We will provide a more detailed discussion of how the system can deliver the performance benefits.
 PPT uses LCP to gracefully utilize the spare bandwidth left by DCTCP in the slow start and queue buildup phases.
-In particular, we will add further discussion for the queue buildup phase to show more details in Section 2.3.
+For the queue buildup phase, which the reviewer focused on, we will add a more detailed analysis and show the potential for improvement in Section 2.3.
 Furthermore, we complement buffer-aware flow scheduling to optimize the performance of small flows.
-We will also add a discussion of buffer-aware flow scheduling in Appendix Section 3.1.
+We will also add a discussion of how PPT get benefits from buffer-aware flow scheduling in Appendix.
+%In particular, we will add further discussion for the queue buildup phase to show more details in Section 2.3.
 %In the overall average performance analysis in Section 6.2, we mentioned that the PPT benefits from gracefully utilizing the spare bandwidth without causing bandwidth waste or sending opportunistic packets too aggressively.
 %To further explain the insights, we add a remark at the end of Appendix C.1 to analyze how the PPT achieves its superior performance in more detail.
 }
