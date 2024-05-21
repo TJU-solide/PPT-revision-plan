@@ -298,7 +298,14 @@ These make PPT achieve a better large flow performance.
 {\it \paragraph{A.5: Reviewer Comment:}Filling the gap up to the DCTCP max congestion window sounds good when traffic is completely static. But if DCTCP uses the full link bandwidth when alone, then 1/11th of the bandwidth when 10 more flows arrive, it is hard to understand why a new opportunistic flow would suddenly take 1/2*10/11, i.e nearly 50\% of the link rate. In fact, if $W_{max}$ were the correct rate for DCTCP, then DCTCP could have used it as well. There is a reason why DCTCP has decreased its window. Likewise, while at the start the DCTCP flow starts cautiously, the opportunistic flow starts with a near-full BDP of traffic. Why?}
 
 \noindent\textcolor{blue}{\textbf{Response A.5}
+PPT actually will not send the opportunity packet when 10 more flows arrive.
+Specifically, traffic bursts result in more ECN-marked packets.
+The value of $\alpha$ increases due to Eq. (1), when PPT will not send any opportunity packets.
 } 
+
+\textcolor{blue}{We have already run a simulation and shown when there are multiple concurrent flows, DCTCP may cut windows simultaneously, thus causing a sudden drain on the switch buffer and leaving bandwidth underutilized. Please see Fig.1 for more details.}
+
+\textcolor{blue}{DCTCP leaves significant spare bandwidth as it ramps up to the maximum window. So, PPT fills the spare bandwidth by sending low-priority opportunity packets. Even if the link is fully utilized, it can be rapidly backtracked to DCTCP by dropping low-priority opportunity packets.}
 
 
 {\it \paragraph{A.6: Reviewer Comment:} In addition, PPT seems to couple each LCP flow with an HCP flow, by defining the window size of the LCP flow using the window size of the associated HCP flow. But what if there are no HCP flows now? Are LCP flows stuck? Or more generally, what if the numbers of flows are not equal? Or what if they are equal but the flows are destined to different destinations? How does this coupling help? }	
