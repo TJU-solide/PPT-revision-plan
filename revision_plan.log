@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.6)  21 MAY 2024 23:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.6)  21 MAY 2024 23:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -436,9 +436,9 @@ Non-PDF special ignored!
 
 {f:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 262.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 263.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 262.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 263.
  [3]
 [4] [5] [6] [7] (./revision_plan.aux) ) 
 Here is how much of TeX's memory you used:
@@ -457,7 +457,7 @@ ips/base/8r.enc}<f:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
 -dist/fonts/type1/urw/times/utmb8a.pfb><f:/texlive/2022/texmf-dist/fonts/type1/
 urw/times/utmr8a.pfb><f:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on revision_plan.pdf (7 pages, 111119 bytes).
+Output written on revision_plan.pdf (7 pages, 111235 bytes).
 PDF statistics:
  64 PDF objects out of 1000 (max. 8388607)
  40 compressed objects within 1 object stream

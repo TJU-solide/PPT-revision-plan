@@ -206,7 +206,8 @@ On the other hand, we have also discussed about the compatibility of PPT with ot
 %Actually, we have not claimed that "integration with other transports is easy."
 %We claim that the design of PPT can be integrated with delay-based transport.
 %To this point, we implemented a delay-based transport conceptually equivalent to Swift in the ns3 simulator.
-%%It doesn't include the component in Swift that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion, and (2) the ns3 simulator hardly simulates endpoint congestion as well as it does. 
+%%It doesn't include the component in Swift that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion, and (2) the ns3 simulator hardly simulates endpoint congestion as well as it does.
+%Swift's variant actually doesn't include the component that handles endpoint congestion because (1) PPT doesn't focus on endpoint congestion, and (2) the ns3 simulator hardly simulates endpoint congestion as well as it does.
 %We compared this variant with the original delay-based transport and plotted the result in Figure 26.
 %We find that when incorporating PPT's design with the original delay-based transport, the overall average FCT, the average//tail FCT of small flows, and the average FCT of large flows can be reduced by 16.7\%, 56.5\%/72.1\%, and 11\%, respectively.
 %To show more details, we plan to add a more detailed description of this variant and discuss how delay-based transport can benefit from the design of the PPT in Appendix C.3.
@@ -416,7 +417,7 @@ We will add more intuitive reasons in Section 6.2 to show this point.
 \noindent\textcolor{blue}{\textbf{Response D.1}
 DCTCP is widely deployed and used as the default congestion control algorithm in linux kernel for many years.
 Therefore, DCTCP has fewer barriers to adoption and a broader reach compared to other transport protocols.
-Moreover, through experiments, we have already demonstrated that DCTCP achieves performance comparable to state-of-the-art proactive transport protocols when utilizing spare bandwidth.
+Moreover, through experiments, we have already demonstrated that DCTCP achieves performance comparable to state-of-the-art proactive transports when utilizing spare bandwidth.
 Please see Section 2.3 for more details.
 These support PPT to design based on DCTCP.
 } 
@@ -424,6 +425,8 @@ These support PPT to design based on DCTCP.
 {\it \paragraph{D.2: Reviewer Comment:}Related work: The paper misses the recent delay-based congestion control algorithms such as Timely and Swift both in the qualitative discussions (e.g., Table 1) and in the quantitative comparisons in the evaluation section. Appendix C provides some data but needs some clarification. What exactly is "a delay-based transport (conceptually equivalent to Swift)." What is the actual algorithm?}
 
 \noindent\textcolor{blue}{\textbf{Response D.2}
+We will add the analysis of delay-based transports to Table 1.
+Swift's variant actually doesn't include the component that handles endpoint congestion.
 } 
 
 
