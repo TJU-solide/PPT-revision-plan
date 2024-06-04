@@ -128,6 +128,9 @@ From this point of view, our evaluation results can back this up. Please see the
 \textcolor{blue}{Finally, the PPT prototype implementation, the CloudLab testbed experiments and the comments about the issues in Homa-Linux implementation verify that PPT is a readily deployable solution.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Our experiments indeed demonstrate that our approach delivers comparable performance to proactive transports while remaining readily deployable. Therefore, we will not add further explanations or analyses in the paper. To address the reviewers' possible misunderstandings regarding the flow scheduling scheme, we will add an analysis under the title of section 4 on the page 6 and include additional explanations in the footnotes on the page 7.
+}
 
 
 %Thanks for the reviewer's comments. 
@@ -157,6 +160,10 @@ First, PCC Proteus is designed for Internet while our PPT is used for datacenter
 Second, PCC Proteus depends on application requirements and use the traffic of low-priority applications to fill the bandwidth leftover by high-priority application. PPT uses different bandwidth padding scheme. That said, it does not rely on application's priority or requirement. It instead uses the opportunistic packets starting from the end of the same flow to fill the spare bandwidth in the network.
 Finally, PCC Proteus requires application to specify its priorities, while PPT gradually demotes a flow's priority as more bytes sent. We plan to discuss PCC Proteus and other related work in Appendix B.}
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We plan to discuss PCC Proteus and other related work in the related work section on page 12.
+}
+
 
 
 
@@ -178,6 +185,9 @@ PPT's performance benefits are steamed from the following points. First, DCTCP c
 Second, in queue build-up phase, DCTCP also contains some spare bandwidth. We have already shown this point using a preliminarily experiment in Fig.1. But the reviewer may consider this experiment only contains synchronized bursts. Actually, in this experiment, the flows are generated according to Poisson arrival  pattern. So, there are both synchronized and nonsynchronized cases. We plan to clarify this point in our paper.
 Finally, PPT uses a mirror-symmetric packet tagging design. This makes PPT achieve comparable performance on the average FCT of small flows.
 }
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will show more insights in Section 2.3 on page 4.
+}
 
 %\noindent\textcolor{blue}{\textbf{Response 3:} 
 %Thanks for the reviewer’s comments. 
@@ -194,12 +204,20 @@ Finally, PPT uses a mirror-symmetric packet tagging design. This makes PPT achie
 {\it \paragraph{Concern 4:} Other claims such as "integration with other transports is easy" need to be further justified.}
 
 \noindent\textcolor{blue}{\textbf{Response 4:} 
-We actually are not claiming that ``integration with other transports is easy".
+We actually are not claiming that "integration with other transports is easy".
 What we claim is that the design of PPT can be integrated with delay-based transport.
 We have already justified this point in our submission.
 First, we have already implemented a delay-based transport conceptually equivalent to Swift in the ns3 simulator and showed that PPT's design can improve the performance of the original delay-based transport. Please see Fig. 26 for more details.
 On the other hand, we have also discussed about the compatibility of PPT with other transports. Please see Appendix A for more details.
 }
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Given our analysis, we will not add further explanations in the paper.
+}
+
+
+
+
 
 %\noindent\textcolor{blue}{\textbf{Response 4:} 
 %Thanks for the reviewer's comments. 
@@ -219,6 +237,11 @@ On the other hand, we have also discussed about the compatibility of PPT with ot
 
 \noindent\textcolor{blue}{\textbf{Response 5:}
 We will complete the missing details about the experimental setup and parameters in the form of tables.
+}
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will add a table to fill in the missing parameters in the appendix on page 19.
+}
 %We record the maximum value of the window from the beginning of the flow until now as MW (Maximum Window).
 %Section 2.3 first shows how much DCTCP can benefit from padding the spare bandwidth to MW and plots the results in Figure 2.
 %Moreover, we show that padding the spare bandwidth to MW is just suitable without wasting bandwidth or causing congestion throughout the experiment, and we plot the results of our experiment in Figure 3.
@@ -230,7 +253,7 @@ We will complete the missing details about the experimental setup and parameters
 %To evaluate if this can benefit PPT’s performance, we construct a PPT variant that turns off this approach and considers all flows non-identified.
 %We plot the results in Figure 20, showing that this improves the small flow performance as expected.
 %In summary, the TCP send buffer threshold does not assume that the application type and flow size distribution are known a priori and effectively improves small flow performance.
-}
+
 	
 \section{Reviewers Response}
 %\noindent The changes made in the revised paper according to comments of Reviewer 1 are highlighted in \textcolor{blue}{blue}.
@@ -256,6 +279,10 @@ From this point of view, our evaluation results can back this up. Please see the
 \textcolor{blue}{So, in summary, we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network. Moreover, the priority queuing is a incremental design to further optimize the average FCT of small flows. We plan to add more text in Sec. 4 to clarify these points.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will add more text under the title of section 4 on page 6 and include additional explanations in the footnotes on page 7.
+}
+
 %\textcolor{blue}{Finally, the PPT prototype implementation, te CloudLab testbed experiments and the comments about the issues in Homa-Linux implementation verify that PPT is a readily deployable solution.
 %}
 
@@ -275,6 +302,10 @@ To avoid ambiguity, we will include footnotes in Section 3.2 to explain this poi
 \textcolor{blue}{On the other hand, as we have shown in the above response, the priority queuing design does not affect the primary goal of optimizing the overall average FCT of flows. It is an add-on design on the parallel control loop to further optimize the average FCT of small flows.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will not provide further explanations on this concern in the paper.
+}
+
 %\textcolor{blue}{We would like to clarify the goals of PPT uses such priority queues is to optimize the performance of small flows. This design motivated by PPT's dual-loop rate control treats all flows equally in the network. Specifically, the packets of small flows may be queued after those of large flows. Therefore, PPT uses a mirror-symmetric packet tagging method which makes PPT achieve comparable small flow performance with Homa. We plan to add more text in Sec.4 to clarify these point.
 %}
 
@@ -287,6 +318,10 @@ Second, PCC Proteus depends on application requirements and use the traffic of l
 Finally, PCC Proteus requires application to specify its priorities, while PPT gradually demotes a flow's priority as more bytes sent. We will plan to discuss PCC Proteus and other related work in Appendix B.
 } 
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We plan to discuss PCC Proteus in the related work section on page 12.
+}
+
 {\it \paragraph{A.4: Reviewer Comment:}Another major issue is that the paper somehow gets a free lunch, and we do not get much intuition about it. PPT handily beats state-of-the-art algorithms on small-flow FCTs, which was expected. We would expect a small hit for long-flow FCTs on the other hand. Instead, it also easily beats them for long-flow FCTs. The paper should devote much more space to explain the intuition behind this out-performance, and convey why this is not just due to the choice of the network and/or workload parameters. Is it due to the better bandwidth utilization? To the use of priorities? Would it still hold if the competing algorithm had 4 priorities with DCTCP or HPCC in each?}
 
 \noindent\textcolor{blue}{\textbf{Response A.4}
@@ -297,6 +332,11 @@ We have already verified these points in design space section (Sec. 2.3).}
 \textcolor{blue}{Regarding the 4 classes (or priorities) of traffic, we have already claimed in the above response that we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network. 
 So, it makes little sense to compare PPT with an algorithm that has 4 priorities with DCTCP or HPCC in each.
 But we do have already compared PPT with HPCC directly and the results demonstrated that PPT outperforms HPCC. Please see Fig. 16 for more details. }
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Given our analysis, we will not add further explanations in the paper.
+}
+
 
 
 
@@ -321,6 +361,10 @@ In this case, the opportunistic packets for flow 1 will not be sent, because que
 \textcolor{blue}{
 On the other hand, PPT will open an LCP loop for each of the flow in flows 2$\sim$11 (if they are identified as small flows) to let them send opportunistic packets. However, these opportunistic packets may be queued or dropped due to buffer overflow, thus their LCP loops will be closed in a short while.
 } 
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Given our analysis, we will not add further explanations in the paper.
+}
 %PPT actually will not send the opportunity packet when 10 more flows arrive.
 %Specifically, traffic bursts result in more ECN-marked packets.
 %The value of $\alpha$ increases due to Eq. (1), when PPT will not send any opportunity packets.
@@ -334,6 +378,9 @@ On the other hand, PPT will open an LCP loop for each of the flow in flows 2$\si
 
 \noindent\textcolor{blue}{\textbf{Response A.6:} Thanks for the reviewer's comments. Actually, we are not simply dividing the traffic into four class of flows and coupling flows with different priorities to utilize the spare bandwidth. Instead, we divide each individual flow into two parts: the first part runs with high priorities while the second part runs with low priorities to utilize the spare bandwidth in the network.}
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+To address the reviewers' possible misunderstandings regarding the flow scheduling scheme, we will add an analysis under the title of section 4 on page 6 and include additional explanations in the footnotes on page 7.
+}
 %\noindent\textcolor{blue}{\textbf{Response A.2:}
 %Thanks for the reviewer's comments. 
 %At the beginning of Section 3, we mentioned that "LCP sends opportunistic packets from the tail end."
@@ -350,6 +397,10 @@ Thanks for the reviewer's comments.
 BDP is computed as $BDP = rtt*rate_{nic}$, where $rate_{nic}$ is the rate of the network interface card, and $rtt$ is the base RTT in the network.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Based on the above analysis, we will not add further explanations in the paper.
+}
+
 {\it \paragraph{B.2: Reviewer Comment:} I wonder if tracking $\alpha_{min}$ can lead to underutilization due to network dynamics. Suppose we have a long flow which experiences transient congestion at the beginning (say due to an incast); the trans ient congestion causes $\alpha_{min}$ to be $>$ 0.5 for the flow. After the transient congestion subsides, the large flow is unable to utilize any spare bandwidth arising from Case 2.}
 
 \noindent\textcolor{blue}{\textbf{Response B.2:}
@@ -362,13 +413,22 @@ On the other hand, even if $\alpha$ is greater than 0.5: it represents the netwo
 %At this point, $\alpha$ must be less than 0.5, which makes this large flow utilize the spare bandwidth.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will not provide further explanations on this concern in the paper.
+}
+
 {\it \paragraph{B.3: Reviewer Comment:} It is unclear how PPT deals with fairness as flows arrive and leave. Suppose two large flows sharing a common bottleneck link arrive one after the other. The latter flow might see much lower $W_{max}$ (50\%?) than the earlier flow. In every LCP loop initialization (case 2), the latter flow would compute a lower value of initial congestion window and send less packets via LCP compared to the earlier flow.}
+
 
 
 \noindent\textcolor{blue}{\textbf{Response B.3:}
 Thanks for the reviewer’s comments. 
 To be frank, we have not taken into account the fairness issue in this scenario.
 We will discuss this point in Appendix A.
+}
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will add an analysis in the future work section on page 12.
 }
 
 {\it \paragraph{B.4: Reviewer Comment:} As the paper targets the issue of underutilizing high datacenter bandwidth, I wonder if some of the simulations could have been done at higher line rates (400+ Gbps) to demonstrate the problem more clearly.}
@@ -379,12 +439,21 @@ Thanks for the reviewer’s comments.
 We will add a new simulation with 100/400G topology to show this point.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will add a new simulation with 100/400G topology to demonstrate this point. The results and analysis of this experiment will be presented in Appendix C on page 18 of the paper.
+}
+
+
 {\it \paragraph{B.5: Reviewer Comment:} What are the overheads of PPT?}
 
 \noindent\textcolor{blue}{\textbf{Response B.5:}
 Thanks for the reviewer’s comments. 
 We have already measured the kernel space CPU overhead of PPT and DCTCP, and the results shown that PPT only incurs a slightly higher CPU usage (less than 1\%) than DCTCP. 
 Please see Fig. 21 in Appendix C.1 for more details.
+}
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will not provide further explanations on this concern in the paper.
 }
 
 \subsection{Reviewer \#293C}
@@ -395,6 +464,9 @@ Appreciate the reviewer’s comments.
 In Fig. 1, we actually have already shown that other than during the slow start phase, DCTCP also contains spare bandwidth in queue build-up phase. The reviewer may consider Fig. 1 only contains synchronized bursts. Indeed, in the experiment of Fig. 1, the flows are generated according to Poisson arrival  pattern. So, there are both synchronized and nonsynchronized cases. We plan to clarify this point in our paper.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will show more details and analysis in Section 2.3 on page 4.
+}
 %\noindent\textcolor{blue}{\textbf{Response C.1:}
 %Thanks for the reviewer’s comments. 
 %Indeed, in section 2.3, we mention that \emph{DCTCP marks ECN at the switch for arriving packets if queue occupancy exceeds a threshold K, and the sender cuts the window based on the fraction of ECN marked ACKs. So, when there are multiple concurrent flows, DCTCP may mark ECN for packets from many flows, which may cut windows simultaneously, thus causing a sudden drain on the switch buffer and leaving bandwidth underutilized.}
@@ -417,6 +489,10 @@ We will revise it accordingly.
 %We will fix the bug and update the correct result.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will revise it on page 11.
+}
+
 {\it \paragraph{C.3: Reviewer Comment:} Page 12, can you give an intuition why limiting RC3’s low priority queue doesn’t help? It kind of contradicts the argument that aggressive low priority packets hinder high-priority packets being a problem if the high-priority queue has enough buffers?}
 
 
@@ -430,6 +506,9 @@ We will add more intuitive reasons in Section 6.2 to show this point.
 %We will add the above analyses to our paper.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We will add more intuitive reasons in Section 6.2 on page 11.
+}
 
 \subsection{Reviewer \#293D}
 
@@ -443,6 +522,10 @@ Moreover, through our design and experiments, we have already demonstrated that 
 These factors motivate us to design an add-on system on DCTCP.
 } 
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+	Given our analysis, we will not add further explanations in the paper.
+}
+
 {\it \paragraph{D.2: Reviewer Comment:}Related work: The paper misses the recent delay-based congestion control algorithms such as Timely and Swift both in the qualitative discussions (e.g., Table 1) and in the quantitative comparisons in the evaluation section. Appendix C provides some data but needs some clarification. What exactly is "a delay-based transport (conceptually equivalent to Swift)." What is the actual algorithm?}
 
 \noindent\textcolor{blue}{\textbf{Response D.2}
@@ -450,6 +533,9 @@ Thanks for the comments. We will add the discussions with Timely and Swift in Re
 By the way, Swift's variant actually doesn't include the component that handles endpoint congestion. We will clarify this in Appendix C.3.
 } 
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+We plan to discuss Swift and Timely in the related work on page 12 and show more details about the actual algorithm in the footnotes on page 17.
+}
 
 {\it \paragraph{D.3: Reviewer Comment:} I'm not sure if I fully understand some of the experimental results. To give an example, why is Homa's performance so poor for the testbed incast experiment? You mention that PPT is effective because it can recover quickly but why can't Homa?}
 
@@ -464,6 +550,10 @@ However, Homa-Linux over-tunes the entire TCP/IP network stack and suffers from 
 %We will add more detailed analyses in the paper.
 }
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+	Given our analysis, we will not add further explanations in the paper.
+}
+
 \subsection{Reviewer \#293E}
 
 {\it \paragraph{E.1: Reviewer Comment:} In production systems, priority queues are scarce resource. Using only two HW queues for one application will be a luxury. How does PTP perform with 2 prio queues (one high, one low) compared to existing production solutions like Swift, HPCC, DCTCP?}
@@ -471,6 +561,10 @@ However, Homa-Linux over-tunes the entire TCP/IP network stack and suffers from 
 \noindent\textcolor{blue}{\textbf{Response E.1:}
 Thanks for the reviewer’s comments. 
 Actually, in our paper, we have already evaluated the performance of PPT using only two queues. Please see Fig.~19 for more details.
+}
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Given our shown result, we will not add further explanations in the paper.
 }
 
 {\it \paragraph{E.2: Reviewer Comment:} Even the 'large-scale' simulations cover only 144 servers w/ 40~100G as core link speeds. This resembles DC topology of more a decade ago. With the trend of AI clusters growing to have 10s of Ks of GPUs, I believe at least 2K or more endpoints must be simulated to see the real impact on shallow switch.}
@@ -482,6 +576,10 @@ Simulation with 2K-node scale takes significant time, which may miss the camera-
 %We will add a large-scale simulation experiment with 2k nodes to the appendix.
 } 
 
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+Due to time constraints, we will not add further experiment in the paper.
+}
+
 {\it \paragraph{E.3: Reviewer Comment:} Fairness and TCP friendliness discussion are missing: tail FCT of large flows can tell the impact on fairness but is completely missing.}
 
 \noindent\textcolor{blue}{\textbf{Response E.2}
@@ -489,6 +587,10 @@ PPT's HCP is exactly DCTCP. So, PPT is essentially a TCP-friendly design.
 Regarding the fairness issue, frankly speaking, we have not taken it into account.
 We plan to discuss it in Appendix A.
 } 
+
+\noindent\textcolor{red}{\textbf{Proposed modification: }
+	We will add an analysis in the future work section on page 12.
+}
 
 
 
